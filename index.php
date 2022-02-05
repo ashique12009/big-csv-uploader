@@ -17,6 +17,7 @@
                 <h3 class="panel-title">Import Large CSV File Data into Multiple Table</h3>
             </div>
             <div class="panel-body">
+                <span id="loader"><strong>Please wait...</strong></span>
                 <span id="message"></span>
                 <form id="sample_form" method="POST" enctype="multipart/form-data" class="form-horizontal">
                     <div class="form-group">
@@ -36,6 +37,7 @@
 
 <script>
 $(document).ready(function() {
+    $('#loader').hide();
     $('#sample_form').on('submit', function(event) { 
         $('#message').html('');
         event.preventDefault();
@@ -47,7 +49,11 @@ $(document).ready(function() {
             contentType: false,
             cache: false,
             processData: false,
+            beforeSend: function() {
+                $('#loader').show();
+            },
             success: function(data) {
+                $('#loader').hide();
                 $('#message').html('<div class="alert alert-success">'+data.success+'</div>');
                 $('#sample_form')[0].reset();
             }
